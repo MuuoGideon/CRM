@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid" style="background-color:#417690;">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+        <li class="nav-item">
+          <h4 style="color:white;font-family: Gabriola;">CRM</h4>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+          <div class="dropdown" >
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#417690;">Records</a>
+
+            <ul class="dropdown-menu" style="background-color:#417690;">
+                <li><a class="dropdown-item" href="{% url 'add-record' %}">Add Record</a></li>
+               <li><a class="dropdown-item" href="{% url 'csv-record' %}">Records Excel Sheet</a>
+               </li>
+               <li><a class="dropdown-item" href="{% url 'pdf-record' %}">Records PDF</a>
+               </li>
+               
+            </ul>
+          </div>
+          
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout-user' %}">Logout</a>
+        </li>
+        {% endif %}
+
+        
+      </ul>
+      <form action="{% url 'search-record' %}" method="POST" class="d-flex" role="search">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search record..." aria-label="Search" name="searched" style="background-color:#75a3a3;color:white;" required>
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
