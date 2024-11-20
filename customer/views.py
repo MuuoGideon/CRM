@@ -15,7 +15,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 
-
+# Generates a pdf presentation of the record
 def pdf_record(request):
 	# Create Bytestream buffer
 	buf = io.BytesIO()
