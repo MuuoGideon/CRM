@@ -2,14 +2,16 @@
 
 {% block content %}
 
-	<h1 style="font-family: Gabriola;">Add Customer Record</h1>
 		{% if messages %}
 			{% for message in messages %}
 				{{ message }}
 			{%  endfor %}
 		{% endif %}
 
-  	<form action="" method="POST">
+				
+		<h1 style="font-family: Gabriola;">Add another Customer Record in the form below</h1>
+
+  	<form action="" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 			{{ form.as_p }}
 			<button class="btn btn-secondary"><a class="nav-link" href="{% url 'home' %}">Back</a></button>

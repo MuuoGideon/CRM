@@ -11,7 +11,14 @@
     			<li class="list-group-item">Records count: {{ customer_count }}</li>
   			</ul>
 		</div>
+		<hr>
+
+  
+		
 		<br>
+		
+
+		
 
 
 	{% endif %}
@@ -48,14 +55,24 @@
 
 			     	 	<td align="right"><a href="{% url 'update-record' record.id %}" class="btn btn-outline-success btn-sm">Update</a></td>
 			     	 
-			     	 	<td align="right"><a href="{% url 'delete_record' record.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+			     	 	<td align="right"><a href="{% url 'delete_record' record.id %}" class="btn btn-outline-danger btn-sm">Delete</a></td>
 			     	 
 			     	 {% endif %}
 				   	 </tr>
 		  		</tbody>
 				{% endfor %}
 			</table>
- 
+
+			{% if records.has_previous %}
+				<a href="?page=1">First &laquo</a>
+				<a href="?page={{records.previous_page_number}}">Previous</a>
+			{% endif %}
+				{{records.number}} of {{records.paginator.num_pages}}
+			{% if records.has_next %}
+				<a href="?page={{records.next_page_number}}">Next</a>
+				<a href="?page={{records.paginator.num_pages}}"> &raquo Last</a>
+			{% endif %}
+
 		</div>
 		
 	{% else %}
@@ -82,5 +99,10 @@
 		<h5 style="font-family: Gabriola;">Are you a new User? If so click the Registration button below to Sign-Up</h5>
              <button class="btn btn-outline-success"><a class="nav-link" href="{% url 'register-user' %}">Sign-Up</a></button>
 	{% endif %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
 {% endblock %}
+
+
 

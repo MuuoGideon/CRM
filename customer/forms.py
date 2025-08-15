@@ -8,7 +8,7 @@ from . models import Customer
 class RecordsForm(ModelForm):
 	class Meta:
 		model = Customer
-		fields = ('first_name','last_name','phone','email','city','date')
+		fields = ('first_name','last_name','phone','email','city','date','image')
 		labels = {
 			'first_name': '',
 			'last_name': '',
@@ -24,4 +24,5 @@ class RecordsForm(ModelForm):
 			'email': forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'}),
 			'city': forms.TextInput(attrs={'class':'form-control', 'placeholder':'County'}),
 			'phone': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Phone'}),
+
 		}

@@ -8,6 +8,8 @@ class Customer(models.Model):
 	city = models.CharField(max_length=100)
 	phone = models.CharField(max_length=100)
 	date = models.CharField(max_length=100, blank=True, null=True)
+	image = models.ImageField(blank=True, null=True)
 
 	def __str__(self):
 		return self.first_name
+

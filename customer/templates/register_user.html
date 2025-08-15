@@ -5,9 +5,9 @@
 		<h2 style="font-family: Gabriola;" >Register User</h2>
 		<form action="" method="POST">
 			{% csrf_token %}
-			{{ form }}
-			<br>
-			<button class="btn btn-outline-success" type="submit">Sign Up</button>
+			{{ form.as_p }}
+			<input type="submit" value="Sign Up" name="">
 		</form>
+		
 {% endblock %}
 

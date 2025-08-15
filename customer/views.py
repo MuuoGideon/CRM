@@ -8,9 +8,13 @@ from django.contrib.auth.forms import UserCreationForm
 import csv
 from django.http import HttpResponse
 
+from django.core.paginator import Paginator
 
+# ====================================================
+# PDF GENERATOR CODE
 from django.http import FileResponse
 import io
+import reportlab
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
@@ -55,14 +59,28 @@ def pdf_record(request):
 	c.save()
 	buf.seek(0)
 
-	# Resturn result
+	# Return result
 	return FileResponse(buf, as_attachment=True, filename='record.pdf')
+# ====================================================
+
+
+# Get cutomer records
+def record_list(request):
+	records = Customer.objects.all()
+
+	p = Paginator(Customer.objects.all(), 2)
+	page = request.GET.get('page')
+	venues = p.get_page(page)
+
+
+	return render(request, 'record_list.html', {'records':records, 'venues':venues})
 
 
 
+# =============================================================================================================
 # View function for creating a CSV (Excel sheet) for all the records
 def csv_record(request):
-	response = HttpResponse(content_type='text/css')
+	response = HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename=record.csv'
 
 	# Create writer
@@ -79,6 +97,7 @@ def csv_record(request):
 		writer.writerow([record.first_name, record.last_name, record.email, record.city, record.phone, record.date])
 
 	return response
+# =============================================================================================================
 
 def register_user(request):
 	if request.method == "POST":
@@ -102,6 +121,8 @@ def search_record(request):
 	if request.method == "POST":
 		searched = request.POST['searched']
 		records = Customer.objects.filter(first_name__contains=searched)
+		if len(records) == 0:
+			messages.success(request, ('Record not found'))
 	return render(request, 'search_record.html', {'searched':searched,'records':records})
 
 
@@ -134,7 +155,12 @@ def update_record(request, record_id):
 
 # View function for the home page
 def index(request):
-	records = Customer.objects.all()
+	
+	p = Paginator(Customer.objects.all(), 2)
+	page = request.GET.get('page')
+	records = p.get_page(page)
+
+
 	if request.method == "POST":
 		username = request.POST['username']
 		password = request.POST['password']
@@ -147,6 +173,7 @@ def index(request):
 			messages.success(request, ('Incorrect username or password, please try again'))
 			return redirect('home')
 	customer_count = Customer.objects.all().count()
+	
 	return render(request, 'index.html', {'customer_count':customer_count,'records':records})
 
 
@@ -162,7 +189,7 @@ def logout_user(request):
 def add_record(request):
 	submitted = False
 	if request.method == "POST":
-		form = RecordsForm(request.POST)
+		form = RecordsForm(data=request.POST, files=request.FILES)
 		if form.is_valid():
 			form.save()
 			messages.success(request, ('Customer Record added successfully'))
@@ -173,5 +200,3 @@ def add_record(request):
 			submitted = True
 
 	return render(request, 'add_record.html', {'form':form})
-
-

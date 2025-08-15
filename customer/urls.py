@@ -12,5 +12,6 @@ urlpatterns = [
 	path('register_user/', views.register_user, name='register-user'),
 	path('csv_record/', views.csv_record, name='csv-record'),
 	path('pdf_record/', views.pdf_record, name='pdf-record'),
+	path('record_list/', views.record_list, name='record-list'),
 
 ]
